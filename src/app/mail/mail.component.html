@@ -1,0 +1,79 @@
+<mat-card class="search-bar">
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="container">
+
+      <mat-form-field class="term">
+        <input
+          matInput
+          name="email"
+          ngModel
+          placeholder="Enter email"
+          color="primary"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field class="term">
+        <input
+          matInput
+          name="date"
+          [ngModel]="today"
+          [matDatepicker]="picker"          
+          placeholder="Choose a date"
+          color="primary"
+          required
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button
+        type="submit"
+        mat-button
+        mat-raised-button
+        color="primary"
+        [disabled]="!slForm.valid">
+        Search
+      </button>
+
+      <mat-error *ngIf="networkingErr">
+        Something went wrong please try again
+      </mat-error>
+      
+    </div>
+  </form>
+</mat-card>
+
+<table mat-table [dataSource]="events" class="mat-elevation-z8" class="results-table">
+
+  <ng-container matColumnDef="timeStamp">
+    <th mat-header-cell *matHeaderCellDef>timeStamp</th>
+    <td mat-cell *matCellDef="let event">
+      {{ event.info.message.mail.timestamp }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="source">
+    <th mat-header-cell *matHeaderCellDef>source</th>
+    <td mat-cell *matCellDef="let event">
+      {{ event.info.message.mail.source }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="eventType">
+    <th mat-header-cell *matHeaderCellDef>eventType</th>
+    <td mat-cell *matCellDef="let event">{{ event.info.message.eventType }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="subject">
+    <th mat-header-cell *matHeaderCellDef>subject</th>
+    <td mat-cell *matCellDef="let event">
+      {{ event.info.message.mail.commonHeaders.subject }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<mat-card *ngIf="events.length === 0">Nothing to display</mat-card>
