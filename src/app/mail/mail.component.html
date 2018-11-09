@@ -54,9 +54,9 @@
   </ng-container>
 
   <ng-container matColumnDef="source">
-    <th mat-header-cell *matHeaderCellDef>source</th>
+    <th mat-header-cell *matHeaderCellDef>recipient</th>
     <td mat-cell *matCellDef="let event">
-      {{ event.info.message.mail.source }}
+      {{ event.info.message.mail.destination }}
     </td>
   </ng-container>
 
